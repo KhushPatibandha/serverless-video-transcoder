@@ -12,43 +12,25 @@ public class MainObject {
 
     private String tempBucketName = dotenv.get("TEMP_BUCKET_NAME");
     private String permBucketName = dotenv.get("PERM_BUCKET_NAME");
+
+    private String snsTopicName = "videoTranscoderTopic";
+    private String snsTopicForPermS3Name = "videoTranscoderTopicForPermS3";
     
-    private String snsTopicName = "cccccccccccccccccccccccccccccccccccccccccccccccccc";
-    private String snsTopicForPermS3Name = "dddddddddddddddddddddddd";
+    private String sqsQueueName = "videoTranscoderQueue";
+    private String sqsQueueForPermS3Name = "videoTranscoderQueueForPermS3";
     
-    private String sqsQueueName = "cccccccccccccccccccc";
-    private String sqsQueueForPermS3Name = "ddddddddddddddddddd";
+    private String lambdaFunctionName = "videoTranscoderLambdaFunction";
+    private String lambdaS3FunctionName = "videoTranscoderLambdaFunctionForPermS3";
     
-    private String lambdaFunctionName = "cccccccccccccccccccccc";
-    private String lambdaS3FunctionName = "ddddddddddddddddddd";
+    private String roleNameForTaskExecution = "videoTranscoderRoleForTaskExecution";
     
-    private String roleNameForTaskExecution = "ccccccc";
+    private String roleName = "videoTranscoderRoleForLambdaTriggerFromSQS";
+    private String roleNameForPermS3LambdaTrigger = "videoTranscoderRoleForPermS3LambdaTrigger";
     
-    private String roleName = "dddddd";
-    private String roleNameForPermS3LambdaTrigger = "dddddddddddd";
-    
-    private String containerName = "cccccccccccccccccccdcdcdcddddd";
-    private String taskDefinationName = "cdddddddddddddddddfdfdcd";
-    private String clusterName = "dddddddddddddddddddddcdcddddddddddddddd";
-    private String securityGroupName = "ddddddddddddddddddddcccccccccccccaaaaaaaaaaaawwwwwwwwww";
-    // private String snsTopicName = "videoTranscoderTopic";
-    // private String snsTopicForPermS3Name = "videoTranscoderTopicForPermS3";
-    
-    // private String sqsQueueName = "videoTranscoderQueue";
-    // private String sqsQueueForPermS3Name = "videoTranscoderQueueForPermS3";
-    
-    // private String lambdaFunctionName = "videoTranscoderLambdaFunction";
-    // private String lambdaS3FunctionName = "videoTranscoderLambdaFunctionForPermS3";
-    
-    // private String roleNameForTaskExecution = "videoTranscoderRoleForTaskExecution";
-    
-    // private String roleName = "videoTranscoderRoleForLambdaTriggerFromSQS";
-    // private String roleNameForPermS3LambdaTrigger = "videoTranscoderRoleForPermS3LambdaTrigger";
-    
-    // private String containerName = "videoTranscoder";
-    // private String taskDefinationName = "videoTranscoderTaskDefination";
-    // private String clusterName = "videoTranscoderCluster";
-    // private String securityGroupName = "videoTranscoderSecurityGroup";
+    private String containerName = "videoTranscoder";
+    private String taskDefinationName = "videoTranscoderTaskDefination";
+    private String clusterName = "videoTranscoderCluster";
+    private String securityGroupName = "videoTranscoderSecurityGroup";
     
     private String tempBucketArn = "arn:aws:s3:::" + tempBucketName;
     private String permBucketArn = "arn:aws:s3:::" + permBucketName;
