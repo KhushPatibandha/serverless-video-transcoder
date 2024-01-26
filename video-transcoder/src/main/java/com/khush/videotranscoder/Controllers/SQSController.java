@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.khush.videotranscoder.MainObject;
 import com.khush.videotranscoder.Services.SQSService;
 
 @RestController
@@ -16,10 +17,21 @@ public class SQSController {
 
     @Autowired
     private SQSService sqsService;
+
+    @Autowired
+    private MainObject mainObject;
     
-    @PostMapping("/create/queue")
-    public ResponseEntity<String> createQueue() {
-        String response = sqsService.createQueue();
+    @PostMapping("/create/queue/temp-s3")
+    public ResponseEntity<String> createTempBucketQueue() {
+        String sqsQueueName = mainObject.getSqsQueueName();
+        String response = sqsService.createQueue(sqsQueueName);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/create/queue/perm-s3")
+    public ResponseEntity<String> createPermBucketQueue() {
+        String sqsQueueName = mainObject.getSqsQueueForPermS3Name();
+        String response = sqsService.createQueue(sqsQueueName);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

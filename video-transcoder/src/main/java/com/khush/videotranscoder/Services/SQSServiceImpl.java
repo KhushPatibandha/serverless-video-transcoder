@@ -23,8 +23,8 @@ public class SQSServiceImpl implements SQSService {
     private static final AmazonSQS sqsClient = AwsClientProvider.getSqsclient();
 
     @Override
-    public String createQueue() {
-        CreateQueueRequest request = new CreateQueueRequest(mainObject.getSqsQueueName());
+    public String createQueue(String sqsQueueName) {
+        CreateQueueRequest request = new CreateQueueRequest(sqsQueueName);
         CreateQueueResult result = sqsClient.createQueue(request);
         String sqsUrl = result.getQueueUrl();
 

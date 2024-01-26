@@ -23,7 +23,7 @@ public class S3Controller {
     @PostMapping("/create/temp-bucket")
     public ResponseEntity<String> createTempBucket() {
         s3Service.createTempBucket();
-        return new ResponseEntity<>("Temporary  bucket created", HttpStatus.CREATED);
+        return new ResponseEntity<>("Temporary bucket created", HttpStatus.CREATED);
     }
 
     @PostMapping("/create/perm-bucket")

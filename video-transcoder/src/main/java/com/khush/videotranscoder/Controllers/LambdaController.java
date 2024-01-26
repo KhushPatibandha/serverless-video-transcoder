@@ -19,16 +19,28 @@ public class LambdaController {
     @Autowired
     private LambdaService lambdaService;
 
-    @PostMapping("/create/function")
+    @PostMapping("/create/function/temp")
     public ResponseEntity<String> createLambdaFunction() throws IOException {
         String res = lambdaService.createLambdaFunction();
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    @PostMapping("/create/role-and-attach-policy")
+    @PostMapping("/create/function/perm")
+    public ResponseEntity<String> createLambdaS3Function() throws IOException {
+        String res = lambdaService.createLambdaFunctionToTriggerFromPermS3();
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/create/role-and-attach-policy/sqs")
     public ResponseEntity<String> createRoleAndAttachPolicy() {
         lambdaService.createRoleAndAttachPolicy();
-        return new ResponseEntity<>("Role created and policy attached", HttpStatus.CREATED);
+        return new ResponseEntity<>("Role created and policy attached for sqs tasks", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/create/role-and-attach-policy/s3")
+    public ResponseEntity<String> createRoleAndAttachPolicyForS3() {
+        lambdaService.createRoleAndAttachPolicyForS3();
+        return new ResponseEntity<>("Role created and policy attached for s3 tasks", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/mapping")

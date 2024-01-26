@@ -1,6 +1,5 @@
 package com.khush.videotranscoder.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.sns.AmazonSNS;
@@ -10,15 +9,10 @@ import com.amazonaws.services.sns.model.SetTopicAttributesRequest;
 import com.amazonaws.services.sns.util.Topics;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.khush.videotranscoder.AwsClientProvider;
-import com.khush.videotranscoder.MainObject;
-
 import io.github.cdimascio.dotenv.Dotenv;
 
 @Service
 public class SNSServiceImpl implements SNSService {
-    
-    @Autowired
-    private MainObject mainObject;
 
     private static final Dotenv dotenv = Dotenv.load();
     private static final AmazonSNS snsClient = AwsClientProvider.getSnsclient();
@@ -26,9 +20,7 @@ public class SNSServiceImpl implements SNSService {
     private static final String ownerAccountId = dotenv.get("AWS_ACCOUNT_ID");
 
     @Override
-    public String createSNSTopic() {
-        String topicName = mainObject.getSnsTopicName();
-        String bucketArn = mainObject.getTempBucketArn();
+    public String createSNSTopic(String topicName, String bucketArn) {
         CreateTopicRequest request = new CreateTopicRequest(topicName);
         CreateTopicResult result = snsClient.createTopic(request);
 
@@ -60,7 +52,7 @@ public class SNSServiceImpl implements SNSService {
                 ]\
                 }\
                 """).formatted(
-                topicArn, topicArn, bucketArn, ownerAccountId
+                topicName, topicArn, bucketArn, ownerAccountId
         );
 
         SetTopicAttributesRequest setTopicAttributesRequest = new SetTopicAttributesRequest(topicArn, "Policy", policy);
@@ -69,8 +61,8 @@ public class SNSServiceImpl implements SNSService {
     }
 
     @Override
-    public void createSub() {
-        Topics.subscribeQueue(snsClient, sqsClient, mainObject.getSnsTopicArn(), mainObject.getSqsQueueURL());
+    public void createSub(String snsTopicArn, String sqsQueueUrl) {
+        Topics.subscribeQueue(snsClient, sqsClient, snsTopicArn, sqsQueueUrl);
     }
     
 }

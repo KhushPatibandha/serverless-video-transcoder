@@ -13,6 +13,8 @@ import com.amazonaws.services.lambda.AWSLambda;
 import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
@@ -63,6 +65,11 @@ public class AwsClientProvider {
                                                 .withRegion(regions)
                                                 .build();
 
+    private static final AmazonSimpleEmailService sesClient = AmazonSimpleEmailServiceClientBuilder.standard()
+                                                                .withCredentials(new AWSStaticCredentialsProvider(creds))
+                                                                .withRegion(regions)
+                                                                .build();
+
     public static AmazonIdentityManagement getIamclient() {
         return iamClient;
     }
@@ -89,6 +96,10 @@ public class AwsClientProvider {
 
     public static AmazonEC2 getEc2client() {
         return ec2Client;
+    }
+
+    public static AmazonSimpleEmailService getSesclient() {
+        return sesClient;
     }
 
 }

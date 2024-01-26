@@ -80,6 +80,17 @@ public class S3ServiceImpl implements S3Service {
         try {
             if(!s3Client.doesBucketExistV2(mainObject.getPermBucketName())) {
                 s3Client.createBucket(new CreateBucketRequest(mainObject.getPermBucketName()));
+
+                BucketNotificationConfiguration notificationConfiguration = new BucketNotificationConfiguration();
+
+                TopicConfiguration topicConfiguration = new TopicConfiguration(mainObject.getSnsTopicForPermS3Arn(), S3Event.ObjectCreated.toString());
+
+                notificationConfiguration.addConfiguration("ObjectCreatedEvents", topicConfiguration);
+
+                SetBucketNotificationConfigurationRequest setBucketNotificationConfigurationRequest = new SetBucketNotificationConfigurationRequest(mainObject.getPermBucketName(), notificationConfiguration);
+
+                s3Client.setBucketNotificationConfiguration(setBucketNotificationConfigurationRequest);
+
             }
         } catch (AmazonServiceException e) {
             e.printStackTrace();
