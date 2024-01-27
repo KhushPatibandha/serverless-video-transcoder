@@ -20,6 +20,7 @@ import com.amazonaws.services.lambda.model.EventSourceMappingConfiguration;
 import com.amazonaws.services.lambda.model.FunctionCode;
 import com.amazonaws.services.lambda.model.ListEventSourceMappingsResult;
 import com.amazonaws.services.lambda.model.Runtime;
+import com.amazonaws.services.lambda.model.UpdateFunctionCodeRequest;
 import com.khush.videotranscoder.AwsClientProvider;
 import com.khush.videotranscoder.MainObject;
 
@@ -179,6 +180,24 @@ public class LambdaServiceImpl implements LambdaService {
                                                                 .withUUID(mapping.getUUID());
             lambdaClient.deleteEventSourceMapping(deleteRequest);
         }
+    }
+
+    @Override
+    public void updateLambdaFunctionCode(String functionName) throws IOException {
+        String filePath = mainObject.getJarFilePath();
+        ByteBuffer fileToUpload;
+        try (FileInputStream fis = new FileInputStream(new File(filePath))) {
+            FileChannel channel = fis.getChannel();
+            fileToUpload = ByteBuffer.allocate((int) channel.size());
+            channel.read(fileToUpload);
+            fileToUpload.flip();
+        }
+
+        UpdateFunctionCodeRequest request = new UpdateFunctionCodeRequest()
+                                                .withFunctionName(functionName)
+                                                .withZipFile(fileToUpload);
+
+        lambdaClient.updateFunctionCode(request);
     }
     
 }

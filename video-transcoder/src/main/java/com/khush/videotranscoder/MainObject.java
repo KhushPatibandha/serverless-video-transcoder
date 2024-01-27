@@ -27,7 +27,7 @@ public class MainObject {
     private String roleName = "videoTranscoderRoleForLambdaTriggerFromSQS";
     private String roleNameForPermS3LambdaTrigger = "videoTranscoderRoleForPermS3LambdaTrigger";
     
-    private String containerName = "videoTranscoder";
+    private String containerName = "videotranscoder";
     private String taskDefinationName = "videoTranscoderTaskDefination";
     private String clusterName = "videoTranscoderCluster";
     private String securityGroupName = "videoTranscoderSecurityGroup";

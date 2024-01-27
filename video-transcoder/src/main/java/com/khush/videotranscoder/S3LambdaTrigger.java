@@ -63,21 +63,24 @@ public class S3LambdaTrigger implements RequestHandler<SQSEvent, String>{
                 e.printStackTrace();
             }
         }
+        
         String urlsString = String.join("\n", urls);
 
-        SendEmailRequest request = new SendEmailRequest()
-                                        .withDestination(new Destination().withToAddresses(emailAddress))
-                                        .withMessage(new Message()
-                                                .withBody(new Body()
-                                                        .withText(new Content()
-                                                                .withCharset("UTF-8")
-                                                                .withData(urlsString)))
-                                                .withSubject(new Content()
-                                                        .withCharset("UTF-8")
-                                                        .withData("Your URLs")))
-                                        .withSource(emailAddress);
-
-        sesClient.sendEmail(request);
+        if(!urls.isEmpty()) {
+            SendEmailRequest request = new SendEmailRequest()
+                                            .withDestination(new Destination().withToAddresses(emailAddress))
+                                            .withMessage(new Message()
+                                                    .withBody(new Body()
+                                                            .withText(new Content()
+                                                                    .withCharset("UTF-8")
+                                                                    .withData(urlsString)))
+                                                    .withSubject(new Content()
+                                                            .withCharset("UTF-8")
+                                                            .withData("Your URLs")))
+                                            .withSource(emailAddress);
+    
+            sesClient.sendEmail(request);
+        }
 
         return urls.toString();
     }

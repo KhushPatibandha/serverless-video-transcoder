@@ -7,14 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.khush.videotranscoder.MainObject;
 import com.khush.videotranscoder.Services.LambdaService;
 
 @RestController
 @RequestMapping("/api/lambda")
 public class LambdaController {
+
+    @Autowired
+    private MainObject mainObject;
     
     @Autowired
     private LambdaService lambdaService;
@@ -47,6 +52,15 @@ public class LambdaController {
     public ResponseEntity<String> deleteMapping() {
         lambdaService.deleteMapping();
         return new ResponseEntity<>("Mappings deleted", HttpStatus.OK);
+    }
+
+    @PutMapping("/update/code")
+    public ResponseEntity<String> updateLambdaFunctionCode() throws IOException {
+        String firstLambdaFunction = mainObject.getLambdaFunctionName();
+        String secondLambdaFunction = mainObject.getLambdaS3FunctionName();
+        lambdaService.updateLambdaFunctionCode(firstLambdaFunction);
+        lambdaService.updateLambdaFunctionCode(secondLambdaFunction);
+        return new ResponseEntity<>("All lambda function's code is updated now!", HttpStatus.OK);
     }
 
 }

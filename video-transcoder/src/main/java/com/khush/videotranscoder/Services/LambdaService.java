@@ -8,4 +8,5 @@ public interface LambdaService {
     public void createRoleAndAttachPolicy();
     public void createRoleAndAttachPolicyForS3();
     public void deleteMapping();
+    public void updateLambdaFunctionCode(String functionName) throws IOException;
 }
